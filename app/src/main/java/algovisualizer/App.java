@@ -3,12 +3,13 @@
  */
 package algovisualizer;
 
+import javax.swing.SwingUtilities;
+
+import main.java.algovisualizer.AlgorithmVisualizer;
+
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        SwingUtilities.invokeLater(() -> new AlgorithmVisualizer());
     }
 }
