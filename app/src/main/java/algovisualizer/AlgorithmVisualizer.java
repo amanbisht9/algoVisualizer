@@ -2,7 +2,6 @@ package algovisualizer;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -52,7 +51,7 @@ public class AlgorithmVisualizer{
 
         //Setting algorithm label "Select Algorithm" and drop down for selection of algorithm.
         algorithmLabel = new JLabel("Select Algorithm", SwingConstants.CENTER);
-        algorithmSelector = new JComboBox<>(new String[]{"Linear Search", "Bubble Sort", "Selection Sort", "Merge Sort", "Insertion Sort"}); // Add more algorithms here
+        algorithmSelector = new JComboBox<>(new String[]{"Bubble Sort", "Selection Sort", "Merge Sort", "Insertion Sort", "Quick Sort"}); // Add more algorithms here
 
 
         //Setting size means number of values to be sorted and size slider to select the size(calls updateSizeLabel() function).
@@ -101,22 +100,30 @@ public class AlgorithmVisualizer{
     }
 
     private void startVisualization() {
-        // TODO Auto-generated method stub
-
         int size = (int) sizeSlider.getValue();
-        array = new int[size]; // <-- Initialize the array
-
+        array = new int[size]; // Initialize the array
+    
         // Generate random heights for the bars
         for (int i = 0; i < size; i++) {
             array[i] = (int) (Math.random() * visualizationPanel.getHeight());
         }
-
+    
+        // Get the delay from the slider (multiplied by 1000 to convert to milliseconds)
+        int delay = stepDelaySlider.getValue() * 1000;
+    
         // Choose the algorithm to visualize
         String algorithm = (String) algorithmSelector.getSelectedItem();
-        if ("Bubble Sort".equals(algorithm)) {
-            new Thread(() -> new BubbleSort().bubbleSort(array, visualizationPanel, size)).start();
+        if ("Selection Sort".equals(algorithm)) {
+            new Thread(() -> new SelectionSort().selectionSort(array, visualizationPanel, delay)).start();
+        } else if ("Bubble Sort".equals(algorithm)) {
+            new Thread(() -> new BubbleSort().bubbleSort(array, visualizationPanel, delay)).start();
+        } else if ("Insertion Sort".equals(algorithm)) {
+            new Thread(() -> new InsertionSort().insertionSort(array, visualizationPanel, delay)).start();
+        } else if ("Merge Sort".equals(algorithm)) {
+            new Thread(() -> new MergeSort().mergeSort(array, visualizationPanel, delay)).start();
+        } else if ("Quick Sort".equals(algorithm)) {
+            new Thread(() -> new QuickSort().quickSort(array, visualizationPanel, delay)).start();
         }
-        
     }
 
     private void updateTimeLabel() {
